@@ -12,7 +12,7 @@ We can think swagger documentation as a blueprint of the APIs. By checking the b
 
 Swagger can be written in yml and json. We will use yml here. And, we will use [Swagger Editor tool](https://editor.swagger.io/ "Swagger Editor tool") to write the documentation. Here, we will use an example of User Management APIs, where user details can be Retrieved, Updated and Deleted.
 
-####Let’s Start:
+#### Let’s Start:
 - First we need to define the OpenAPI version, here we will use version 3.
 
 ```yaml
@@ -149,5 +149,5 @@ headers:
 ```
 We have added only two headers, we can add as many headers as we want.
 
-#### Now after adding the response example lines into swagger editor, the output for the added codes will be as below:
+#### Now after adding the response example lines into swagger editor, the output will be as below:
 ![swagger_response_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_2.png?raw=true)
