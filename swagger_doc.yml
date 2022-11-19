@@ -19,3 +19,43 @@ servers:
       enum:
         - example.com
         - bd.example.com
+paths:
+  /users/1:
+    get:
+      summary: Get User details
+      operationId: getUser
+      responses:
+        200:
+          description: Successful response
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  first_name:
+                    type: string
+                    example: Rahim
+                  last_name:
+                    type: string
+                    example: Uddin
+                  address:
+                    type: object
+                    properties:
+                      area:
+                        type: string
+                        example: Mirpur
+                      city:
+                        type: string
+                        example: Dhaka
+                      country:
+                        type: string
+                        example: Bangladesh
+                      
