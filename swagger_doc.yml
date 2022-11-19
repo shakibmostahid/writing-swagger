@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  title: User Management APIs
+  description: This is a sample project for managing users.
+  contact:
+    name: John Doe
+    email: john@example.com
+  version: "1.0"
+servers:
+- url: "{protocol}://{base_url}/v1"
+  variables:
+    protocol:
+      default: https
+      enum:
+        - https
+        - http
+    base_url:
+      default: example.com
+      enum:
+        - example.com
+        - bd.example.com
