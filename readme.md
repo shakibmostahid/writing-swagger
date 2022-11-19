@@ -151,3 +151,57 @@ We have added only two headers, we can add as many headers as we want.
 
 #### Now after adding the response example lines into swagger editor, the output will be as below:
 ![swagger_response_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_2.png?raw=true)
+
+------------
+
+- We might need the example of `user` object on others API. For example, we will return the same user object after creating an user. Then what we can do is copy pasting the response content. That would definitely work, but the contents of the file keeps increasing. It would be better if we can avoid the duplication.
+The solution for this problem is to add common definitions in the global `components` attribute and add the references using `$ref` of the definitions wherever we need. 
+Let's write the user schema under `components` attribute:
+
+```yaml
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        first_name:
+          type: string
+          example: Rahim
+        last_name:
+          type: string
+          example: Uddin
+        address:
+          type: object
+          properties:
+            area:
+              type: string
+              example: Mirpur
+            city:
+              type: string
+              example: Dhaka
+            country:
+              type: string
+              example: Bangladesh
+```
+
+Here we have added the user details under `schemas` atrribute which parent element is `components`. We have named our schema with `User`. Then we have added the schema details. 
+
+Now, our next task is to add the references in the success response content. We need to remove the user schema from there, and need to add only one line to refer the object. So the changes would be like: 
+
+```yaml
+content:
+  application/json:
+    schema:
+      "$ref": "#/components/schemas/User"
+```
+
+We have just set the reference under `schema` by setting the value of `$ref` attribute. The format is `#/components/<type>/<OjbectName>`. Our type is `schemas` and our object name is `User`. That's why we have set the value `#/components/schemas/User`.
+
+After adding these changes, the response object would be as previous. But there will be shown a new component named `Schemas`.
+That would look like:
+![swagger_schema_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_3.png?raw=true)
+
+------------

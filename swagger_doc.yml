@@ -39,26 +39,31 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 1
-                  first_name:
-                    type: string
-                    example: Rahim
-                  last_name:
-                    type: string
-                    example: Uddin
-                  address:
-                    type: object
-                    properties:
-                      area:
-                        type: string
-                        example: Mirpur
-                      city:
-                        type: string
-                        example: Dhaka
-                      country:
-                        type: string
-                        example: Bangladesh
+                "$ref": "#/components/schemas/User"
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        first_name:
+          type: string
+          example: Rahim
+        last_name:
+          type: string
+          example: Uddin
+        address:
+          type: object
+          properties:
+            area:
+              type: string
+              example: Mirpur
+            city:
+              type: string
+              example: Dhaka
+            country:
+              type: string
+              example: Bangladesh
+  
