@@ -26,12 +26,16 @@ paths:
       operationId: getUser
       responses:
         200:
-          description: Successful response
+          description: API to fetch the user information by user id.
           headers:
             Cache-Control:
               schema:
                 type: string
                 example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Thu, 17 Nov 2022 09:52:10 GMT
           content:
             application/json:
               schema:
@@ -58,4 +62,3 @@ paths:
                       country:
                         type: string
                         example: Bangladesh
-                      

@@ -73,3 +73,81 @@ After setting the values we can see multiple dropdowns for each variable.
 ------------
 
 #### Now after adding these lines into swagger editor, the output will be as below:
+![swagger_servers_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_1.png?raw=true)
+
+------------
+
+#### We need to add the paths information.
+
+- Now, we will add the API details under `paths` attribute. We will add the API summary and reponse sample in the documentation. For example we have an API for getting customer information for given ID, we will add information for it:
+
+```yaml
+paths:
+  /users/1:
+    get:
+      summary: Get User details
+      operationId: getUser
+      responses:
+        200:
+          description: API to fetch the user information by user id.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  first_name:
+                    type: string
+                    example: Rahim
+                  last_name:
+                    type: string
+                    example: Uddin
+                  address:
+                    type: object
+                    properties:
+                      area:
+                        type: string
+                        example: Mirpur
+                      city:
+                        type: string
+                        example: Dhaka
+                      country:
+                        type: string
+                        example: Bangladesh
+```
+
+here, we have set our API path `customers/1` under `paths` attribute. Then we have define the request type. This is a GET request so, we have define it as `get`.
+Then we have set a short summary for this API in `summary` attribute. `operationId` represents the identity of the operation, this should be unique.
+Then we have added response details under `responses` attribute.
+First we need to define the status codes, there can be multiple responses with different status code. Here we have set only one for `200` status, we will add one error response later.
+The response body needs to define under `content` attribute.
+We need to add the content type here; we have added `application/json` as content type.
+Then, response schema needs to define under `schema` attribute.
+our response is a JSON object, that’s why we have set `type: object`. As we have set type = object so, we need to define the object details under `properties` attribute.
+
+------------
+
+- Now, we will add the headers info for the success response. We have set the response example under `content` attribute of `200` status, we will add the headers informations under `headers` attribute of `200` status:
+
+```yaml
+headers:
+  Cache-Control:
+    schema:
+      type: string
+      example: no-cache, private
+  Date:
+    schema:
+      type: string
+      example: Thu, 17 Nov 2022 09:52:10 GMT
+```
+We have added only two headers, we can add as many headers as we want.
+
+#### Now after adding the response example lines into swagger editor, the output for the added codes will be as below:
+![swagger_response_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_2.png?raw=true)
