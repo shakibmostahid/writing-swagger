@@ -73,6 +73,7 @@ After setting the values we can see multiple dropdowns for each variable.
 ------------
 
 #### Now after adding these lines into swagger editor, the output will be as below:
+
 ![swagger_servers_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_1.png?raw=true)
 
 ------------
@@ -150,6 +151,7 @@ headers:
 We have added only two headers, we can add as many headers as we want.
 
 #### Now after adding the response example lines into swagger editor, the output will be as below:
+
 ![swagger_response_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_2.png?raw=true)
 
 ------------
@@ -202,6 +204,46 @@ We have just set the reference under `schema` by setting the value of `$ref` att
 
 After adding these changes, the response object would be as previous. But there will be shown a new component named `Schemas`.
 That would look like:
+
 ![swagger_schema_output](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_3.png?raw=true)
 
 ------------
+
+- In the example, we have used user's `id` in path with the value 1. So, the path become, `/users/1`, which looks like a static route. But our route is dynamic and it is based on the user's unique id. Swagger give us the ability to make the path dynamic. We need to add placeholder in the `id` portion. To add place holder we use curly braces `{}`, and inside the curly braces we add the variable name. Now, we will make changes in the `path` section like this:
+
+```yaml
+path:
+  users/{id}:
+    get:
+```
+
+Now after adding this, we will see an semantic error saying `Declared path parameter "id" needs to be defined as a path parameter at either the path or operation level`.
+
+To fix the error, we need to add set the information for the `{id}` in the `parameters` attribute. We can have multiple variables for a single route, all the information should be added under `parameters`. We can use variable in query params, body, header as well.
+
+Here we have only one variable `id`, so we will add the information for it only.
+
+```yaml
+paths:
+  /users/{id}:
+    get:
+      summary: Get User details
+      operationId: getUser
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+```
+
+Here, as our variable location is in path, that's why we have set `path` value for `in` attribute. Then, we have entered the schema details for `id` variable. We have set example `1` as user's id. 
+
+After making these changes, there will be a new row with parameters information in the output section. It will look like:
+
+
+![swagger_parameters](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_4.png?raw=true)
+
+------------
+

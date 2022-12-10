@@ -20,10 +20,17 @@ servers:
         - example.com
         - bd.example.com
 paths:
-  /users/1:
+  /users/{id}:
     get:
       summary: Get User details
       operationId: getUser
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
       responses:
         200:
           description: API to fetch the user information by user id.
