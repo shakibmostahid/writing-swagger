@@ -22,6 +22,8 @@ servers:
 paths:
   /users/{id}:
     get:
+      tags:
+        - Users
       summary: Get User details
       operationId: getUser
       parameters:
@@ -47,7 +49,40 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/User"
+  /users:
+    post:
+      tags:
+        - Users
+      summary: Create New User
+      operationId: createUser
+      requestBody:
+        "$ref": '#/components/requestBodies/UserRequestPayload'
+      responses:
+        200:
+          description: API to fetch the user information by user id.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Thu, 17 Nov 2022 09:52:10 GMT
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/User"
+        
 components:
+  requestBodies:
+    UserRequestPayload:
+      description: Request payload for creating new user 
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserPayload'
   schemas:
     User:
       type: object
@@ -73,4 +108,28 @@ components:
             country:
               type: string
               example: Bangladesh
-  
+    UserPayload:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: Rahim
+        last_name:
+          type: string
+          example: Uddin
+        address:
+          type: object
+          properties:
+            area:
+              type: string
+              example: Mirpur
+            city:
+              type: string
+              example: Dhaka
+            country:
+              type: string
+              example: Bangladesh
+tags:
+  - name: Users
+    description: Users API specifications
+

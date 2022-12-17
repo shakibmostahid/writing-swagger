@@ -106,7 +106,7 @@ paths:
                     example: 1
                   first_name:
                     type: string
-                    example: Rahim
+                    example: Jalil
                   last_name:
                     type: string
                     example: Uddin
@@ -171,7 +171,7 @@ components:
           example: 1
         first_name:
           type: string
-          example: Rahim
+          example: Jalil
         last_name:
           type: string
           example: Uddin
@@ -247,3 +247,147 @@ After making these changes, there will be a new row with parameters information 
 
 ------------
 
+- Let's add an `POST` API details in the swagger doc. Now, we will add an API specification for creating an user to our system. First we will add the route and other details like we did in the `GET` API. We need to create an key with the route name under `paths` attribute. And the key must be siblings of other routes. For example, we are setting this route as `/users`. So, it will be siblings of `/users/{id}`.
+
+```yaml
+paths:
+  /users/{id}:
+  ..............
+  /users:
+    post:
+      summary: Create New User
+      operationId: createUser
+```
+
+Then, we will add the request payload details which contains the users details. To add the request payload, we need to define it under `requestBody` attribute. Let's add the information:
+
+```yaml
+/users:
+  post:
+    summary: Create New User
+    operationId: createUser
+    requestBody:
+      description: Request payload for creating new user 
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserPayload'
+components:
+  schemas:
+    UserPayload:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: Hamid
+        last_name:
+          type: string
+          example: Ahmed
+        address:
+          type: object
+          properties:
+            area:
+              type: string
+              example: Mirpur
+            city:
+              type: string
+              example: Dhaka
+            country:
+              type: string
+              example: Bangladesh
+```
+Here, `description` under `requestBody` represents the summary of the request body. Then we have set the payload content type under `content` attribute. As our request will contain JSON data, we have set our schema details under `application/json`. We have create a new schema for the request payload, and set the references on the `schema` attribute.
+
+We can add the full request body as reference, then we can use the reference directly if we need the request body anywhere. To achieve this, we need to add `requestBodies` key under `components` attribute, then we need to add the details there with a custom key name. Let's add it:
+
+```yaml
+components:
+  requestBodies:
+    UserRequestPayload:
+      description: Request payload for creating new user 
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserPayload'
+```
+
+Then, we can use `UserRequestPayload` reference in the API specifications. So, we will make the changes now: 
+
+```yaml
+/users:
+  post:
+    summary: Create New User
+    operationId: createUser
+    requestBody:
+        "$ref": '#/components/requestBodies/UserRequestPayload'
+```
+
+Now, the only part left here is adding the response information. The response will be same as our `GET` request. So, our complete code will be looking like below:
+
+```yaml
+/users:
+  post:
+    summary: Create New User
+    operationId: createUser
+    requestBody:
+      "$ref": '#/components/requestBodies/UserRequestPayload'
+    responses:
+      201:
+        description: API to Create the user information and get created user's details.
+        headers:
+          Cache-Control:
+            schema:
+              type: string
+              example: no-cache, private
+          Date:
+            schema:
+              type: string
+              example: Thu, 17 Nov 2022 09:52:10 GMT
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+```
+
+After adding the `POST` API specification, there will be a new block for the user create API. After expanding the block, It will look like:
+
+![swagger_parameters](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_5.png?raw=true)
+
+------------
+
+- All the API details are shown under *default* group, It is called `tags`. If we don't set any tags for the route or API it will be set to *default*. Let's create a tag here and set to the routes.
+
+To create a tag, we need to define the details under `tags` attribute. This attribute will be siblings of `paths` attribute. It has no parent element.
+
+```yml
+paths:
+...................
+
+tags:
+  - name: Users
+    description: Users API specifications
+```
+
+Then, we need to add the tag name in the routes details to group it together under `tags` attribute as array value. Now the changes will be:
+
+```yml
+paths:
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      .............................
+  /users:
+    post:
+      tags:
+        - Users
+      .............................
+```
+
+Now both of the routes group name is changed to `Users`. 
+
+![swagger_parameters](https://github.com/shakibmostahid/writing-swagger/blob/main/images/swagger_6.png?raw=true)
+
+------------
